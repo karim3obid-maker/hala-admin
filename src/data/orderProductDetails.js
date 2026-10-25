@@ -1,0 +1,5 @@
+// Synthetic catalog and seller offers for the local prototype.
+import {products,sellers} from './adminAnalytics';
+const descriptions=['خلاط محمول للاستخدام اليومي وتحضير المشروبات.','ساعة ذكية لمتابعة النشاط والإشعارات.','جهاز مساج للاسترخاء والعناية اليومية.','سماعة لاسلكية للمكالمات والاستماع.','منظم لحفظ وترتيب أدوات المطبخ.','إضاءة مكتبية للاستخدام على المكتب.'];
+export const productDetails=Object.fromEntries(products.map((p,i)=>[p.id,{sku:`DEMO-${String(i+1).padStart(3,'0')}`,description:descriptions[i],contents:`وحدة واحدة من ${p.name}`,note:'الوصف والعروض تجريبية؛ المواصفات والصور الفعلية لم تُربط بعد.'}]));
+export const sellerOffers=sellers.flatMap(s=>products.flatMap(p=>[{quantity:2,total:150,title:'قطعتان بسعر ١٥٠ ريال'},{quantity:4,total:160,title:'٤ قطع بسعر ١٦٠ ريال'}].map(offer=>({id:`offer-${s.id}-${p.id}-${offer.quantity}`,sellerId:s.id,productId:p.id,title:offer.title,quantity:offer.quantity,unitPrice:offer.total/offer.quantity,currency:'SAR',description:`${offer.quantity===2?'قطعتان':'٤ قطع'} من نفس المنتج بسعر العرض الإجمالي.`,demo:true}))));

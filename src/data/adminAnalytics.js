@@ -1,0 +1,35 @@
+// Synthetic preview data, explicitly requested for the admin design. Never represents live Hala records.
+export const asOf = '2026-10-24';
+export const managers = [{id:'am1',name:'مريم عادل'},{id:'am2',name:'يوسف حسن'},{id:'am3',name:'نور خالد'}];
+export const employees = [{id:'e1',name:'أحمد سامي'},{id:'e2',name:'سارة محمود'},{id:'e3',name:'عمر شريف'},{id:'e4',name:'هبة عادل'},{id:'e5',name:'محمد طارق'},{id:'e6',name:'دينا أحمد'}];
+export const sellers = ['خالد العتيبي','ريم عبدالله','عبدالرحمن علي','نورة محمد','فهد سالم','سلمان ناصر','منى حسن','راشد إبراهيم'].map((name,i)=>({id:`s${i+1}`,name,managerId:managers[i%3].id}));
+export const stores = ['ركن البيت','لمسة جمال','تقنية بلس','بيت الراحة','أناقة ستور','عالم العناية','سمارت شوب','روائع المنزل','جمال الخليج','اختيارك','نمط الحياة','لمسة ذكية'].map((name,i)=>({id:`st${i+1}`,name,sellerId:sellers[i%8].id}));
+export const products = [{id:'p1',name:'خلاط محمول',price:39,cost:15},{id:'p2',name:'ساعة ذكية',price:59,cost:24},{id:'p3',name:'جهاز مساج',price:49,cost:19},{id:'p4',name:'سماعة لاسلكية',price:35,cost:12},{id:'p5',name:'منظم مطبخ',price:29,cost:9},{id:'p6',name:'إضاءة مكتبية',price:32,cost:11}];
+export const countries=['السعودية','الإمارات','الكويت','عُمان'];
+export const carriers=['أرامكس','سمسا','ناقل'];
+export const statuses=['جديد','جاري التأكيد','مؤكد','قيد التجهيز','جاهز للشحن','تم الالتقاط','قيد النقل','خرج للتسليم','تعذر التسليم','تم التسليم','ملغي','جاري الإرجاع','مرتجع'];
+export const shippingStatuses=['جاهز للشحن','تم الالتقاط','قيد النقل','خرج للتسليم','تعذر التسليم','تم التسليم','جاري الإرجاع','مرتجع'];
+const confirmedStatuses=statuses.filter(x=>!['جديد','جاري التأكيد','ملغي'].includes(x));
+// Seeded PRNG keeps every screenshot, filter and test reproducible.
+let seed=24102026;const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296};
+export const orders=Array.from({length:480},(_,i)=>{
+ const store=stores[Math.floor(random()*stores.length)],seller=sellers.find(s=>s.id===store.sellerId),product=products[Math.floor(random()*products.length)],employee=employees[Math.floor(random()*employees.length)];
+ const date=`2026-10-${String(1+Math.floor(random()*24)).padStart(2,'0')}`;
+ const r=random(),status=r<.19?'جاري التأكيد':r<.30?'ملغي':r<.42?'مؤكد':r<.51?'جاهز للشحن':r<.67?'تم الشحن':r<.93?'تم التسليم':'مرتجع';
+ const currentStatus=status==='جاري التأكيد'&&i%4===0?'جديد':status==='مؤكد'&&i%3===0?'قيد التجهيز':status==='تم الشحن'?['تم الالتقاط','قيد النقل','خرج للتسليم','تعذر التسليم'][i%4]:status==='مرتجع'&&i%3===0?'جاري الإرجاع':status;
+ const quantity=random()<.22?2:1,amount=product.price*quantity,shippingCost=5+Math.floor(random()*4),productCost=product.cost*quantity;
+ return {id:`HL-${24001+i}`,date,storeId:store.id,sellerId:seller.id,managerId:seller.managerId,employeeId:employee.id,productId:product.id,country:countries[Math.floor(random()*countries.length)],carrier:carriers[Math.floor(random()*carriers.length)],status:currentStatus,quantity,amount,productCost,shippingCost,attempts:1+Math.floor(random()*4),confirmationMinutes:15+Math.floor(random()*180),customer:`عميل تجريبي ${String(i+1).padStart(3,'0')}`};
+}).sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id));
+export const defaultFilters={period:'month',from:'2026-10-01',to:asOf,sellerId:'',employeeId:'',storeId:'',managerId:'',country:'',status:'',carrier:'',productId:''};
+export function dateRange(filters){if(filters.period==='today')return [asOf,asOf];if(filters.period==='week')return ['2026-10-18',asOf];if(filters.period==='custom')return [filters.from,filters.to];return ['2026-10-01',asOf]}
+export function filterOrders(rows,filters){const [from,to]=dateRange(filters);return rows.filter(o=>(!from||o.date>=from)&&(!to||o.date<=to)&&['sellerId','employeeId','storeId','managerId','country','status','carrier','productId'].every(key=>!filters[key]||o[key]===filters[key]))}
+export function summarize(rows){const count=status=>rows.filter(x=>x.status===status).length,confirmed=rows.filter(x=>confirmedStatuses.includes(x.status)),delivered=rows.filter(x=>x.status==='تم التسليم'),returned=count('مرتجع');const sum=(arr,key)=>arr.reduce((total,x)=>total+x[key],0),revenue=sum(delivered,'amount'),cost=sum(delivered,'productCost')+sum(delivered,'shippingCost'),total=rows.length;
+ return {total,confirmed:confirmed.length,newOrders:count('جديد'),pending:count('جاري التأكيد')+count('جديد'),awaitingConfirmation:count('جاري التأكيد'),confirmedOnly:count('مؤكد'),preparing:count('قيد التجهيز'),cancelled:count('ملغي'),ready:count('جاهز للشحن'),shipped:['تم الالتقاط','قيد النقل','خرج للتسليم','تعذر التسليم'].reduce((n,x)=>n+count(x),0),picked:count('تم الالتقاط'),inTransit:count('قيد النقل'),outForDelivery:count('خرج للتسليم'),deliveryFailed:count('تعذر التسليم'),returning:count('جاري الإرجاع'),delivered:delivered.length,returned,confirmationRate:total?confirmed.length/total*100:0,cancellationRate:total?count('ملغي')/total*100:0,deliveryRate:delivered.length+returned?delivered.length/(delivered.length+returned)*100:0,gmv:sum(rows,'amount'),revenue,cost,profit:revenue-cost,margin:revenue?(revenue-cost)/revenue*100:0,aov:total?sum(rows,'amount')/total:0,confirmationMinutes:confirmed.length?Math.round(sum(confirmed,'confirmationMinutes')/confirmed.length):0,attempts:sum(rows,'attempts'),sellers:new Set(rows.map(x=>x.sellerId)).size,stores:new Set(rows.map(x=>x.storeId)).size,employees:new Set(rows.map(x=>x.employeeId)).size,managers:new Set(rows.map(x=>x.managerId)).size};
+}
+export const dimensions={seller:{label:'البائعين',singular:'البائع',key:'sellerId',icon:'users',items:sellers},employee:{label:'الموظفين',singular:'الموظف',key:'employeeId',icon:'headset',items:employees},store:{label:'المتاجر',singular:'المتجر',key:'storeId',icon:'building-store',items:stores},manager:{label:'الأكونت مانجر',singular:'الأكونت مانجر',key:'managerId',icon:'person',items:managers},country:{label:'الدول',singular:'الدولة',key:'country',icon:'world',items:countries.map(x=>({id:x,name:x}))},product:{label:'المنتجات',singular:'المنتج',key:'productId',icon:'package',items:products}};
+export function groupOrders(rows,dimension,registry=dimensions){const config=registry[dimension];return config.items.map(item=>{const selected=rows.filter(x=>x[config.key]===item.id);return {...item,rows:selected,...summarize(selected)}}).filter(x=>x.total>0)}
+export const lookup=(items,id)=>items.find(x=>x.id===id)?.name||'—';
+export const money=value=>Number(value).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+export const percent=value=>`${Number(value).toFixed(1)}%`;
+
+export function stageBreakdown(rows,scope='orders'){const filtered=scope==='shipping'?rows.filter(x=>shippingStatuses.includes(x.status)):rows;const total=filtered.length;return {total,stages:(scope==='shipping'?shippingStatuses:statuses).map(status=>{const selected=filtered.filter(x=>x.status===status);return {status,count:selected.length,share:total?selected.length/total*100:0}})}}
