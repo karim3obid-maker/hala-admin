@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1600, initial-scale=1">
+<title>مقترح تحسين صفحة تفاصيل الطلب</title>
+<style>
+@font-face{font-family:IBM;src:url('../src/fonts/ibm-plex-arabic-0.ttf');font-weight:400}
+@font-face{font-family:IBM;src:url('../src/fonts/ibm-plex-arabic-1.ttf');font-weight:500}
+@font-face{font-family:IBM;src:url('../src/fonts/ibm-plex-arabic-2.ttf');font-weight:600}
+*{box-sizing:border-box}
+body{margin:0;background:#f7f7fa;color:#28262e;font-family:IBM,Tahoma,Arial,sans-serif;font-size:13px;-webkit-font-smoothing:antialiased}
+button{font:inherit}
+.page{width:1600px;min-height:1100px;margin:0 auto;padding:22px 26px 82px}
+.topbar{height:58px;display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:14px}
+.identity{display:flex;align-items:center;gap:12px;min-width:0}
+.back{width:34px;height:34px;border:1px solid #e6e4eb;border-radius:9px;background:#fff;display:grid;place-items:center;color:#6e6879;font-size:18px}
+.title-block{display:flex;align-items:center;gap:10px}
+h1{font-size:20px;line-height:1;margin:0;font-weight:600}
+.order-id{direction:ltr;color:#77717f;font-size:12px;background:#fff;border:1px solid #e6e4eb;border-radius:7px;padding:5px 8px}
+.product-name{font-size:12px;color:#77717f;border-right:1px solid #dedbe4;padding-right:12px}
+.badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 9px;font-size:10px;font-weight:500;white-space:nowrap}
+.badge.green{color:#147a43;background:#eaf8f0;border:1px solid #c8ead6}
+.badge.violet{color:#6545d8;background:#f0ebff;border:1px solid #ded4ff}
+.top-actions{display:flex;align-items:center;gap:8px}
+.btn{height:35px;border-radius:8px;padding:0 13px;border:1px solid #e1dfe7;background:#fff;color:#45404d;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:11px;font-weight:500;white-space:nowrap}
+.btn.primary{background:#6c4cf1;border-color:#6c4cf1;color:#fff}
+.btn.success{background:#168a4b;border-color:#168a4b;color:#fff}
+.btn.soft{background:#f2edff;border-color:#e4dbff;color:#6545d8}
+.btn.danger{color:#c83c51;background:#fff;border-color:#efcbd1}
+.btn.small{height:30px;font-size:10px;padding:0 10px}
+.btn.wide{width:100%;height:40px;font-size:12px}
+.icon{width:15px;height:15px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.summary{height:82px;background:#fff;border:1px solid #e8e6ec;border-radius:12px;display:flex;align-items:center;padding:0 22px;margin-bottom:16px}
+.summary-main{width:245px;display:flex;align-items:center;justify-content:space-between;border-left:1px solid #ebe9ef;padding-left:24px}
+.summary-main span,.summary-item span{display:block;color:#8a8492;font-size:10px;margin-bottom:5px}
+.summary-main strong{font-size:22px;font-weight:600;direction:ltr;display:block}
+.summary-item{min-width:155px;padding:0 25px;border-left:1px solid #ebe9ef}
+.summary-item strong{font-size:15px;font-weight:500}
+.summary-payment{padding:0 25px;display:flex;align-items:center;gap:10px}
+.summary-note{margin-right:auto;color:#9a949f;font-size:10px;display:flex;align-items:center;gap:6px}
+.workspace{display:grid;grid-template-columns:340px minmax(0,1fr);gap:16px;align-items:start}
+.card{background:#fff;border:1px solid #e8e6ec;border-radius:12px;overflow:hidden}
+.card-head{min-height:48px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #efedf2}
+.card-title{display:flex;align-items:center;gap:8px;margin:0;font-size:13px;font-weight:600}
+.card-title .icon{color:#6c4cf1;width:17px;height:17px}
+.card-head .hint{font-size:9px;color:#97919e}
+.action-card{padding-bottom:14px}
+.amount-box{padding:16px;border-bottom:1px solid #efedf2}
+.amount-label{display:flex;align-items:center;justify-content:space-between;color:#817b88;font-size:10px;margin-bottom:6px}
+.amount-value{font-size:28px;font-weight:600;direction:ltr;text-align:right;letter-spacing:-.5px}
+.amount-value small{font-size:12px;color:#88818f;font-weight:400;letter-spacing:0}
+.status-line{display:flex;align-items:center;justify-content:space-between;margin-top:10px;font-size:10px;color:#8a8491}
+.actions{padding:14px 14px 12px;display:grid;gap:8px}
+.action-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.danger-zone{margin:0 14px;padding-top:12px;border-top:1px solid #efedf2;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.facts{margin:14px 14px 0;padding:11px 12px;background:#faf9fc;border:1px solid #efedf2;border-radius:9px;display:grid;gap:9px}
+.fact{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:10px}
+.fact span{color:#8c8593}
+.fact strong{font-weight:500;color:#3c3743}
+.demo-note{margin:11px 14px 0;color:#9a939f;font-size:9px;display:flex;gap:5px;align-items:center}
+.main-column{display:grid;gap:14px}
+.phone-band{margin:14px 16px 12px;background:#f2edff;border:1px solid #e3d9ff;border-radius:9px;padding:11px 13px;display:flex;align-items:center;justify-content:space-between}
+.phone-meta span{display:block;font-size:9px;color:#8e7bc6;margin-bottom:4px}
+.phone-meta strong{font-size:17px;direction:ltr;display:block;font-weight:600;color:#3d2c74}
+.copy-btn{height:30px;padding:0 10px;border-radius:7px;border:1px solid #d9cdf9;background:#fff;color:#6545d8;font-size:10px;display:flex;align-items:center;gap:6px}
+.info-grid{padding:0 16px 14px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 18px}
+.info-item{min-width:0}
+.info-item dt{font-size:9px;color:#948d9b;margin:0 0 4px}
+.info-item dd{font-size:11px;margin:0;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.address{grid-column:1/-1;background:#faf9fc;border:1px solid #efedf2;border-radius:8px;padding:9px 11px}
+.address dd{white-space:normal;line-height:1.7;font-weight:400}
+.table-head,.product-row{display:grid;grid-template-columns:minmax(260px,1.8fr) 100px 120px 120px 130px;align-items:center;gap:10px;padding:0 16px}
+.table-head{height:34px;background:#faf9fc;color:#948d9b;font-size:9px;border-bottom:1px solid #efedf2}
+.product-row{min-height:74px;font-size:11px}
+.product-cell{display:flex;align-items:center;gap:10px;min-width:0}
+.product-thumb{width:42px;height:42px;border-radius:9px;background:#f2f0f5;border:1px solid #e7e4eb;display:grid;place-items:center;color:#8b8492;flex:none}
+.product-thumb .icon{width:22px;height:22px}
+.product-cell strong{display:block;font-size:12px;font-weight:500;margin-bottom:4px}
+.product-cell small{display:block;color:#98919e;font-size:9px;direction:ltr;text-align:right}
+.qty{display:inline-grid;place-items:center;width:27px;height:27px;background:#f5f3f8;border:1px solid #e8e4ed;border-radius:7px;font-weight:500}
+.price{direction:ltr;text-align:right;color:#655e6c}
+.total{direction:ltr;text-align:right;font-weight:600}
+.disclosures{margin:0 16px 14px;border-top:1px solid #efedf2;padding-top:10px;display:flex;align-items:center;gap:8px}
+.disclosure{height:29px;border:1px solid #e7e3ec;background:#fff;border-radius:7px;padding:0 10px;color:#625b69;font-size:10px;display:flex;align-items:center;gap:7px}
+.disclosure.upsell{background:#f6f2ff;color:#6545d8;border-color:#e6dcff}
+.disclosures .line-note{margin-right:auto;font-size:9px;color:#9c95a2}
+.review-card{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.review-main{display:flex;align-items:flex-start;gap:10px}
+.check{width:18px;height:18px;border:1.5px solid #9e96a8;border-radius:5px;background:#fff;flex:none;margin-top:1px}
+.review-main strong{display:block;font-size:11px;font-weight:500;margin-bottom:4px}
+.review-main p{margin:0;color:#948d9a;font-size:9px}
+.review-state{color:#168a4b;background:#edf9f2;border:1px solid #d5eee0;border-radius:7px;padding:6px 9px;font-size:9px;white-space:nowrap}
+.records{margin-top:16px}
+.tabs{display:flex;align-items:center;gap:5px}
+.tab{height:30px;padding:0 12px;border:1px solid transparent;background:transparent;color:#847d8b;border-radius:7px;font-size:10px;display:flex;align-items:center;gap:6px}
+.tab.active{background:#f0ebff;border-color:#ded4ff;color:#6545d8;font-weight:500}
+.tab bdi{font-size:9px;background:#fff;border:1px solid #e4dfe9;padding:1px 5px;border-radius:999px}
+.shipment-row{margin:12px 16px 14px;display:grid;grid-template-columns:1.2fr 1fr 1fr auto;align-items:center;gap:14px;padding:11px 13px;border:1px solid #ece9f0;border-radius:9px;background:#faf9fc;font-size:10px}
+.shipment-id{direction:ltr;text-align:right;font-weight:600;font-size:11px}
+.shipment-row .label{color:#948d9a;margin-left:5px}
+.bottom-bar{position:fixed;bottom:0;right:0;left:0;height:62px;background:rgba(255,255,255,.97);border-top:1px solid #e5e2ea;display:flex;align-items:center;justify-content:space-between;padding:0 30px;z-index:5;box-shadow:0 -4px 18px rgba(38,30,55,.035)}
+.bottom-summary{display:flex;align-items:center;gap:10px;font-size:11px}
+.bottom-summary strong{font-size:18px;direction:ltr}
+.bottom-actions{display:flex;gap:8px}
+.mini-dot{width:7px;height:7px;border-radius:50%;background:#1b9a57;display:inline-block}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><path d="m21 8-9-5-9 5 9 5 9-5Z"/><path d="m3 8 9 5 9-5v9l-9 5-9-5Z"/><path d="M12 13v9"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></symbol>
+<symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></symbol>
+<symbol id="i-truck" viewBox="0 0 24 24"><path d="M10 17h4V5H2v12h3M14 9h4l4 4v4h-3M14 17h1"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+</defs></svg>
+<div class="page">
+  <header class="topbar">
+    <div class="identity">
+      <div class="back">›</div>
+      <h1>تفاصيل الطلب</h1>
+      <span class="order-id">HL-24452</span>
+      <span class="product-name">خلاط محمول</span>
+      <span class="badge green">جاهز للشحن</span>
+    </div>
+    <div class="top-actions">
+      <button class="btn">الطلب السابق</button>
+      <button class="btn">الطلب التالي <svg class="icon"><use href="#i-arrow"/></svg></button>
+      <button class="btn soft"><svg class="icon"><use href="#i-edit"/></svg> تعديل الطلب</button>
+    </div>
+  </header>
+
+  <section class="summary">
+    <div class="summary-main"><div><span>إجمالي الطلب</span><strong>39.00 <small>USD</small></strong></div><span class="badge violet">COD</span></div>
+    <div class="summary-item"><span>عدد المنتجات</span><strong>منتج واحد</strong></div>
+    <div class="summary-item"><span>عدد القطع</span><strong>قطعة واحدة</strong></div>
+    <div class="summary-payment"><span class="mini-dot"></span><span style="margin:0;color:#5e5766;font-size:11px">الدفع عند الاستلام</span></div>
+    <div class="summary-note"><svg class="icon"><use href="#i-info"/></svg> جميع البيانات تجريبية داخل المعاينة</div>
+  </section>
+
+  <div class="workspace">
+    <aside class="card action-card">
+      <div class="card-head"><h2 class="card-title"><svg class="icon"><use href="#i-check"/></svg> ملخص الطلب والإجراءات</h2><span class="hint">تحكم سريع</span></div>
+      <div class="amount-box">
+        <div class="amount-label"><span>المبلغ المطلوب من العميل</span><span class="badge violet">COD</span></div>
+        <div class="amount-value">39.00 <small>USD</small></div>
+        <div class="status-line"><span>حالة الطلب</span><span class="badge green">جاهز للشحن</span></div>
+      </div>
+      <div class="actions">
+        <button class="btn primary wide"><svg class="icon"><use href="#i-phone"/></svg> تسجيل محاولة اتصال</button>
+        <button class="btn wide"><svg class="icon"><use href="#i-calendar"/></svg> تأجيل المتابعة</button>
+        <button class="btn success wide"><svg class="icon"><use href="#i-check"/></svg> تأكيد الطلب</button>
+      </div>
+      <div class="danger-zone">
+        <button class="btn danger small">إلغاء الطلب</button>
+        <button class="btn danger small">طلب وهمي</button>
+      </div>
+      <div class="facts">
+        <div class="fact"><span>البائع</span><strong>عبدالرحمن علي</strong></div>
+        <div class="fact"><span>تاريخ الطلب</span><strong dir="ltr">2026-10-24</strong></div>
+        <div class="fact"><span>محاولات الاتصال</span><strong>1</strong></div>
+        <div class="fact"><span>الموظف المسؤول</span><strong>دينا أحمد</strong></div>
+      </div>
+      <div class="demo-note"><svg class="icon" style="width:12px;height:12px"><use href="#i-info"/></svg> التغييرات محفوظة داخل جلسة المعاينة فقط</div>
+    </aside>
+
+    <main class="main-column">
+      <section class="card">
+        <div class="card-head"><h2 class="card-title"><svg class="icon"><use href="#i-user"/></svg> بيانات العميل والتوصيل</h2><span class="badge green">بيانات مكتملة</span></div>
+        <div class="phone-band">
+          <div class="phone-meta"><span>رقم هاتف العميل</span><strong>+00000000000</strong></div>
+          <button class="copy-btn"><svg class="icon"><use href="#i-copy"/></svg> نسخ الرقم</button>
+        </div>
+        <dl class="info-grid">
+          <div class="info-item"><dt>اسم العميل</dt><dd>عميل تجريبي 452</dd></div>
+          <div class="info-item"><dt>الدولة</dt><dd>الإمارات</dd></div>
+          <div class="info-item"><dt>المدينة</dt><dd>دبي</dd></div>
+          <div class="info-item"><dt>الحي</dt><dd>حي تجريبي</dd></div>
+          <div class="info-item"><dt>العنوان الوطني</dt><dd dir="ltr">TEST1234</dd></div>
+          <div class="info-item"><dt>رقم إضافي</dt><dd>غير مرفق</dd></div>
+          <div class="info-item address"><dt>عنوان التوصيل الكامل</dt><dd>عنوان تجريبي 1، شارع تجريبي، مبنى 12، الدور الثاني، شقة 3</dd></div>
+        </dl>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><h2 class="card-title"><svg class="icon"><use href="#i-box"/></svg> المنتجات والكميات</h2><button class="btn soft small"><svg class="icon"><use href="#i-plus"/></svg> حاسبة Upsell</button></div>
+        <div class="table-head"><span>المنتج</span><span>الكمية</span><span>سعر الوحدة</span><span>الإجمالي</span><span>خيارات المنتج</span></div>
+        <div class="product-row">
+          <div class="product-cell"><div class="product-thumb"><svg class="icon"><use href="#i-box"/></svg></div><div><strong>خلاط محمول</strong><small>DEMO-001</small></div></div>
+          <div><span class="qty">1</span></div>
+          <div class="price">39.00 USD</div>
+          <div class="total">39.00 USD</div>
+          <div style="display:flex;gap:5px"><button class="disclosure">التفاصيل ⌄</button><button class="disclosure upsell">Upsell ⌄</button></div>
+        </div>
+        <div class="disclosures"><span style="font-size:9px;color:#948d9a">منتج واحد · قطعة واحدة</span><span class="line-note">الأسعار شاملة إجمالي الطلب</span></div>
+      </section>
+
+      <section class="card review-card">
+        <div class="review-main"><span class="check"></span><div><strong>راجعت بيانات العميل والمنتجات والمبلغ النهائي</strong><p>يمكنك حفظ التعديلات مع الاحتفاظ بمرحلة الطلب الحالية.</p></div></div>
+        <span class="review-state">جاهز للمراجعة النهائية</span>
+      </section>
+    </main>
+  </div>
+
+  <section class="card records">
+    <div class="card-head"><h2 class="card-title"><svg class="icon"><use href="#i-truck"/></svg> السجلات المرتبطة</h2><div class="tabs"><button class="tab active">الشحنات <bdi>1</bdi></button><button class="tab">سجل النشاط</button><button class="tab">المكالمات <bdi>0</bdi></button></div></div>
+    <div class="shipment-row"><span class="shipment-id">SHP-24452</span><span><span class="label">الحالة</span><span class="badge green">جاهز للشحن</span></span><span><span class="label">شركة الشحن</span> DHL</span><button class="btn small">عرض الشحنة</button></div>
+  </section>
+</div>
+<footer class="bottom-bar">
+  <div class="bottom-summary"><span class="mini-dot"></span><span>جاهز للمراجعة</span><strong>39.00 USD</strong></div>
+  <div class="bottom-actions"><button class="btn"><svg class="icon"><use href="#i-edit"/></svg> تعديل الطلب</button><button class="btn primary">الطلب التالي <svg class="icon"><use href="#i-arrow"/></svg></button></div>
+</footer>
+</body>
+</html>

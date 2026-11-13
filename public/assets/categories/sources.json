@@ -1,0 +1,52 @@
+[
+  {
+    "file": "toys.jpg",
+    "source": "https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=320&h=240&fit=crop",
+    "usage": "Illustrative category photo; sourced from Unsplash, downloaded 2026-11-12."
+  },
+  {
+    "file": "beauty.jpg",
+    "source": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=320&h=240&fit=crop",
+    "usage": "Illustrative category photo; sourced from Unsplash, downloaded 2026-11-12."
+  },
+  {
+    "file": "electronics.jpg",
+    "source": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=320&h=240&fit=crop",
+    "usage": "Illustrative category photo; sourced from Unsplash, downloaded 2026-11-12."
+  },
+  {
+    "file": "fashion.jpg",
+    "source": "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=320&h=240&fit=crop",
+    "usage": "Illustrative category photo; sourced from Unsplash, downloaded 2026-11-12."
+  },
+  {
+    "file": "travel.jpg",
+    "source": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=320&h=240&fit=crop",
+    "usage": "Illustrative category photo; sourced from Unsplash, downloaded 2026-11-12."
+  },
+  {
+    "file": "baby.jpg",
+    "source": "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=320&h=240&fit=crop",
+    "usage": "Illustrative category photo; sourced from Unsplash, downloaded 2026-11-12."
+  },
+  {
+    "file": "variety.jpg",
+    "source": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=320&h=240&fit=crop",
+    "usage": "Illustrative category photo; sourced from Unsplash, downloaded 2026-11-12."
+  },
+  {
+    "file": "test.jpg",
+    "source": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=320&h=240&fit=crop",
+    "usage": "Illustrative category photo; sourced from Unsplash, downloaded 2026-11-12."
+  },
+  {
+    "file": "health.jpg",
+    "source": "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=320&h=240&fit=crop",
+    "usage": "Illustrative category photo; sourced from Unsplash, downloaded 2026-11-12."
+  },
+  {
+    "file": "home.jpg",
+    "source": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=320&h=240&fit=crop",
+    "usage": "Illustrative category photo; sourced from Unsplash, downloaded 2026-11-12."
+  }
+]

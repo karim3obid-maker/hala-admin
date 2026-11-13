@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="760" viewBox="0 0 560 760" font-family="'IBM Plex Sans Arabic',sans-serif">
+  <rect width="560" height="760" fill="#F6F4FB"/>
+  <g transform="translate(280 300) rotate(-32)" opacity=".14" font-size="46" font-weight="600" fill="#5C4E86" text-anchor="middle">
+    <text y="-150">نموذج تجريبي</text><text y="-90">Demo Sample</text><text y="-30">نموذج تجريبي</text><text y="30">Demo Sample</text><text y="90">نموذج تجريبي</text><text y="150">Demo Sample</text>
+  </g>
+  <rect x="24" y="24" width="512" height="712" rx="18" fill="#FFFFFF"/>
+  <rect x="24" y="24" width="512" height="92" rx="18" fill="#3E2E7E"/>
+  <rect x="24" y="86" width="512" height="30" fill="#3E2E7E"/>
+  <text x="420" y="80" font-size="20" font-weight="600" fill="#FFFFFF" text-anchor="middle">إثبات إيداع تحويل</text>
+  <circle cx="80" cy="70" r="17" fill="#FFFFFF" opacity=".18"/><text x="80" y="77" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">هـ</text>
+  <text x="336" y="130" font-size="12" fill="#9C93BC">حالة العملية</text>
+  <text x="336" y="152" font-size="15" font-weight="600" fill="#131B85">✔ تمت العملية</text>
+  <text x="120" y="130" font-size="12" fill="#9C93BC">المرجع</text>
+  <text x="120" y="152" font-size="15" font-weight="600" fill="#231A45">DEP-412057</text>
+  <text x="280" y="218" font-size="12" fill="#9C93BC" text-anchor="middle">المبلغ المودَع</text>
+  <text x="280" y="252" font-size="34" font-weight="700" fill="#231A45" text-anchor="middle">900.00 <tspan font-size="18">SAR</tspan></text>
+  <line x1="52" y1="290" x2="508" y2="290" stroke="#E8E4F4"/>
+  <g font-size="12" fill="#9C93BC">
+    <text x="480" y="330" text-anchor="end">من (المودِع)</text><text x="480" y="374" text-anchor="end">إلى (المستلم)</text><text x="480" y="418" text-anchor="end">البنك</text><text x="480" y="462" text-anchor="end">الغرض</text><text x="480" y="506" text-anchor="end">التاريخ والوقت</text><text x="480" y="550" text-anchor="end">رسوم التحويل</text>
+  </g>
+  <g font-size="13" font-weight="600" fill="#231A45">
+    <text x="80" y="330">سلمان الحربي</text>
+    <text x="80" y="374">شركة هلا كوميرس التجارية</text>
+    <text x="80" y="418">بنك الراجحي</text>
+    <text x="80" y="462">إيداع رصيد لتغطية الشحن</text>
+    <text x="80" y="506" text-anchor="start" direction="rtl" unicode-bidi="embed">05/11/2026 — 10:07</text>
+    <text x="80" y="550">0.00 SAR</text>
+  </g>
+  <line x1="52" y1="590" x2="508" y2="590" stroke="#E8E4F4"/>
+  <rect x="52" y="620" width="456" height="52" rx="10" fill="#FFF6E7"/>
+  <text x="280" y="642" font-size="11" fill="#A36500" text-anchor="middle">نموذج تصميم وهمي لأغراض المعاينة فقط</text>
+  <text x="280" y="660" font-size="10" fill="#C79A4B" text-anchor="middle">لا يمثل أي تحويل حقيقي — Demo transfer proof</text>
+</svg>

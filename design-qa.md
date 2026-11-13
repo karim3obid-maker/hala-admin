@@ -34,3 +34,31 @@ Production Vite build and Sites packaging passed. All 21 Node tests passed: anal
 ## Practical limits
 
 This is a frontend prototype with synthetic data and sessionStorage persistence. Data survives refresh in the same browser tab session. No API or live system was modified. Missing contact, stock and wallet integration data is explicitly unavailable. Validation saves local decisions; operational reshipping/cancellation and financial execution require integration. Existing build chunk-size warning remains nonblocking. Browser checks are representative interaction checks, not a certification of full accessibility or production business rules.
+
+## Wallet requests QA — 2026-11-10
+- #wallet-withdrawals: 5 سجلات سحب، الشيب «البائع» مع اسم الطالب والجهة المستهدفة «الشركة»، كروت الملخص والمراحل تعمل بالنقر للتصفية.
+- #wallet-deposits: 4+1 سجلات إيداع صادرة من «الشركة» مع توجيهها للبائع، إنشاء DP-2005 بنموذج الإضافة ظهر أول الجدول في المرحلة الجديدة.
+- نافذة التفاصيل تعرض شريط المراحل (منجز/حالي/معلق + مرفوض بالأحمر)، بطاقة الطالب وبياناته، المبلغ والطريقة والمرجع والسبب، صورة التحويل (نموذج تجريبي SVG للمكتملين)، وسجل أحداث موقّت.
+- الإقفال بدون صورة مرفوقة يظهر تنبيهًا ولا يغير المرحلة. الرفض يتطلب سببًا + تفصيلًا ≥10 أحرف، ويحول الصف وشريط المراحل للأحمر مع سبب مسجل في الصف والسجل.
+- الانتقالات new→review→proof تعمل مع تسجيل حدث لكل انتقال في سجل مراحل الطلب.
+- npm run build (dist كامل) وnode --test tests/*.test.mjs — 24 اختبارًا ناجحًا.
+- موبايل غير مختبر يدويًا في هذا الفحص؛ القاعدة media queries مضافة للشريط والجداول.
+
+## Unified wallet requests (simplified) — 2026-11-11
+- #wallet-requests: عنوان «إدارة طلبات السحب والإيداع»، 9 طلبات في «الكل»، تبويب السحب 5، تبويب الإيداع 4، فلتر «مرفوض» 2، أعمدة الجدول الثمانية كلها بعرض صحيح (لا يوجد td بعرض 0).
+- نموذج الإضافة: اختيار نوع (سحب/إيداع) يغيّر حقل البائع تلقائيًا، إنشاء DP-2005 ينقل مباشرة لشاشة المعالجة المبسطة.
+- دورة الطلب: إرسال للبائع ← تأكيد وصول التحويل ← محاولة إقفال بدون صورة تُرفض برسالة ← إرفاق نموذج إيصال تجريبي ← إقفال بنجاح مع سجل أحداث.
+- العمودان في شاشة المعالجة (بيانات الطلب / صورة التحويل والقرار) يعملان بشكل صحيح؛ أشرطة المراحل تتقدم done/current.
+- node --test tests/*.test.mjs: 24 ناجح.
+
+## Order filters rework — 2026-11-11
+- Orders advanced filters: removed «النشاط من/إلى»; added «المدينة» (linked to selected country, options built from real order cities) and «حالة الدفع» (COD / مدفوع).
+- Country change resets city when it no longer belongs to the new country; chips render as «المدينة: …» and «حالة الدفع: …» and «مسح الكل» clears both.
+- Payment tag (COD amber / مدفوع green) beside the amount cell; CSV export includes حالة الدفع column; new local orders default to COD.
+- Verified: COD filter → only COD rows (15/15 tags COD), مدفوع → only مدفوع tags, Saudi cities list shows جدة/الدمام/الرياض, city reset on switching to الكويت, مسح الكل works. Build ✓, node --test 24 pass.
+
+## Standalone fast order confirmation — 2026-11-11
+- #order-confirmation-fast renders three adjacent cards (customer/order/products) plus a separate actions column; existing #orders/:id workspace remains unchanged.
+- Confirmed HL-24439 after review: status becomes مؤكد, activity +1 and linked shipment +1, while the opened order ID stays stable. Next navigation opens HL-24446; edit opens the existing order workspace.
+- Call modal saved an attempt on HL-24415: attempts incremented, activity and call tabs updated. No browser console errors after reload.
+- npm run build ✓; node --test tests/*.test.mjs: 24 pass.
